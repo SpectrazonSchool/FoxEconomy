@@ -3,6 +3,7 @@ from discord.ext import commands
 import random
 import json
 from discord import app_commands
+import os
 
 intents = discord.Intents.default()
 intents.members = True  # Enable the members intent
@@ -98,6 +99,6 @@ async def work(interaction: discord.Interaction):
         earnings = random.randint(50, 150)
         user_data["balance"] += earnings
         save_data()
-        await interaction.response.send_message(f'You earned {earnings} coins!')
+        await interaction.response.send_message(f'{interaction.user.mention}, you earned {earnings} coins!')
 
-bot.run('MTEwMTcwMjQzNDUwNzczOTE4Nw.GuT1DP.Iq1LA71G7KCU6z8tS3AqOxKtFOfuB9Ek7X-QvM')
+bot.run(os.getenv('DISCORD_BOT_TOKEN'))
