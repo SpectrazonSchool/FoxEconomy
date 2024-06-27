@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Role and Guild Management</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+        .disabled {
+            background-color: grey;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // Prompt for security key
+        let securityKey = prompt("Enter the security key:");
+        if (securityKey !== "ari") {
+            location.reload();
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const addRoleInput = document.getElementById("addRoleInput");
+            const roleList = document.getElementById("roleList");
+            const guildIdInput = document.getElementById("guildIdInput");
+            const saveButton = document.getElementById("saveButton");
+
+            let hasChanges = false;
+
+            function updateSaveButton() {
+                if (hasChanges) {
+                    saveButton.classList.remove("disabled");
+                } else {
+                    saveButton.classList.add("disabled");
+                }
+            }
+
+            addRoleInput.addEventListener("keypress", function(event) {
+                if (event.key === "Enter") {
+                    const roleId = addRoleInput.value.trim();
+                    if (roleId) {
+                        const listItem = document.createElement("li");
+                        listItem.textContent = roleId;
+
+                        const removeButton = document.createElement("button");
+                        removeButton.textContent = "Remove";
+                        removeButton.addEventListener("click", function() {
+                            roleList.removeChild(listItem);
+                            hasChanges = true;
+                            updateSaveButton();
+                        });
+
+                        listItem.appendChild(removeButton);
+                        roleList.appendChild(listItem);
+                        addRoleInput.value = "";
+                        hasChanges = true;
+                        updateSaveButton();
+                    }
+                }
+            });
+
+            guildIdInput.addEventListener("input", function() {
+                hasChanges = true;
+                updateSaveButton();
+            });
+
+            saveButton.addEventListener("click", function() {
+                if (hasChanges) {
+                    alert("Changes saved!");
+                    hasChanges = false;
+                    updateSaveButton();
+                }
+            });
+        });
+    </script>
+
+    <h1>Role and Guild Management</h1>
+    <div>
+        <label for="addRoleInput">Add staff role id:</label>
+        <input type="text" id="addRoleInput">
+    </div>
+    <ul id="roleList"></ul>
+    <div>
+        <label for="guildIdInput">Guild id / Server id:</label>
+        <input type="text" id="guildIdInput">
+    </div>
+    <button id="saveButton" class="disabled">Save</button>
+</body>
+</html>
