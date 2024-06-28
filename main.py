@@ -101,4 +101,4 @@ async def work(interaction: discord.Interaction):
         save_data()
         await interaction.response.send_message(f'{interaction.user.mention}, you earned {earnings} coins!')
 
-bot.run(os.getenv('DISCORD_BOT_TOKEN'))
+bot.run(os.getenv('TOKEN'))
